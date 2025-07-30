@@ -1,6 +1,11 @@
 name: Login
-version: '1.0-SNAPSHOT'
+version: 1.0
 main: org.Asthenia.login.Login
-api-version: '1.21'
-load: STARTUP
-authors: [ Asthenia ]
+api-version: 1.13
+commands:
+  login:
+    description: 登录你的账户
+    usage: /login <密码>
+  register:
+    description: 注册新账户
+    usage: /register <密码> <确认密码>
