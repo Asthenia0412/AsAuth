@@ -1,0 +1,6 @@
+name: Login
+version: '1.0-SNAPSHOT'
+main: org.Asthenia.login.Login
+api-version: '1.21'
+load: STARTUP
+authors: [ Asthenia ]
