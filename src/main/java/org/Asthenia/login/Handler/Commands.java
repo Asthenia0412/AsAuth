@@ -26,6 +26,7 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+
         if (!(sender instanceof Player)) {
             sender.sendMessage("只有玩家可以使用该命令");
             return true;
@@ -33,7 +34,6 @@ public class Commands implements CommandExecutor {
 
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
-
         if (cmd.getName().equalsIgnoreCase("register")) {
             // 注册逻辑
             if (args.length != 2) {
@@ -50,6 +50,8 @@ public class Commands implements CommandExecutor {
             plugin.saveConfig();
             player.sendMessage("注册成功！");
             cancelTimeoutTask(uuid);
+            plugin.setFrozen(player,false);
+            plugin.setPlayerLoggedIn(uuid, true);
             return true;
 
         } else if (cmd.getName().equalsIgnoreCase("login")) {
@@ -70,6 +72,8 @@ public class Commands implements CommandExecutor {
                 player.sendMessage("登录成功！");
                 cancelTimeoutTask(uuid);
                 loginAttempts.remove(uuid);
+                plugin.setFrozen(player, false);
+                plugin.setPlayerLoggedIn(uuid, true);
                 return true;
             } else {
                 // 登录失败
@@ -92,6 +96,7 @@ public class Commands implements CommandExecutor {
     public void setupTimeoutTask(Player player) {
         UUID uuid = player.getUniqueId();
         cancelTimeoutTask(uuid); // 先取消可能存在的旧任务
+        plugin.setFrozen(player, true);
 
         timeoutTasks.put(uuid, Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (!plugin.isPlayerLoggedIn(uuid)) {
