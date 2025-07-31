@@ -11,11 +11,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Commands {
     private final Login plugin;
-    private final Map<UUID, BukkitTask> timeoutTasks = new HashMap<>();
-    private final Map<UUID, Integer> loginAttempts = new HashMap<>();
+    private final Map<UUID, BukkitTask> timeoutTasks = new ConcurrentHashMap<>();
+    private final Map<UUID, Integer> loginAttempts = new ConcurrentHashMap<>();
     private final int MAX_ATTEMPTS = 3;
     private final int TIMEOUT_SECONDS = 30;
 
